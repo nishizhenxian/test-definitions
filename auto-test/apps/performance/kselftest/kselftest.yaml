@@ -10,7 +10,7 @@ metadata:
         - debian
         - opensuse
     scope:
-        - performance
+        - mishuai 
     devices:
         - d05
         - d03
@@ -20,7 +20,7 @@ metadata:
         fedora: 4
         debian: 4
         opensuse: 4
-
+        centos: 4
 params:
     # Specify Linux kernel self test pre-build tarball name from below location
     # http://testdata.validation.linaro.org/tests/kselftest/
