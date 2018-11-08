@@ -68,9 +68,9 @@ case "${dist}" in
         done
         ;;
     centos)
-        sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
-        version="4.16.0"
-        release="estuary.6"
+        sed -i s/5.[0-9]/5.2/g /etc/yum.repos.d/estuary.repo
+        version="4.18.14"
+        release="estuary.9"
         from_repo="Estuary"
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
@@ -82,7 +82,8 @@ case "${dist}" in
             then
                  print_info 0 install
                 from=$(yum info $p | grep "From repo" | awk '{print $4}')
-                if [ "$from" = "$from_repo" ];then
+                from1=$(yum info $p | grep "From repo" | awk '{print $4}'|sed -n '2p')
+                if [ "$from" = "$from_repo" -o  "$from1" = "$from_repo" ];then
                    print_info 0 repo_check
                 else
                     #已经安装，但是安装源不是estuary的情况需要卸载重新安装
@@ -91,7 +92,8 @@ case "${dist}" in
                         yum remove -y $p
                         yum install -y $p
                         from=$(yum info $p | grep "From repo" | awk '{print $4}')
-                        if [ "$from" = "$from_repo" ];then
+                        from1=$(yum info $p | grep "From repo" | awk '{print $4}'|sed -n '2p')
+                        if [ "$from" = "$from_repo" -o "$from1" = "$from_repo" ];then
                              print_info 0 repo_check
                         else
                             print_info 1 repo_check
@@ -100,14 +102,16 @@ case "${dist}" in
                 fi
 
                 vs=$(yum info $p | grep "Version" | awk '{print $3}')
-                if [ "$vs" = "$version" ];then
+                vs1=$(yum info $p | grep "Version" | awk '{print $3}'|sed -n '2p')
+                if [ "$vs" = "$version" -o "$vs1" = "$version" ];then
                       print_info 0 version
                 else
                       print_info 1 version
                 fi
 
                 rs=$(yum info $p | grep "Release" | awk '{print $3}')
-                if [ "$rs" = "$release" ];then
+                rs1=$(yum info $p | grep "Release" | awk '{print $3}'|sed -n '2p')
+                if [ "$rs" = "$release" -o "$rs1" = "$release" ];then
                      print_info 0 release
                 else
                      print_info 1 release
