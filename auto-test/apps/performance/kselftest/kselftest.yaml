@@ -11,7 +11,7 @@ metadata:
         - opensuse
         - centos
     scope:
-        - mishuai 
+        - performance 
     devices:
         - d05
         - d03
