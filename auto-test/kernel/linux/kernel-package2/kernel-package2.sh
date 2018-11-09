@@ -4,14 +4,14 @@ cd ../../../../utils
     .        ./sys_info.sh
     .         ./sh-test-lib
 cd -
-OUTPUT="$(pwd)/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
-package_list=""
-dist_name
+#OUTPUT="$(pwd)/output"
+#RESULT_FILE="${OUTPUT}/result.txt"
+#export RESULT_FILE
+#package_list=""
+#dist_name
 ! check_root && error_msg "This script must be run as root"
-create_out_dir "${OUTPUT}"
-case "${dist}" in
+#create_out_dir "${OUTPUT}"
+case "${distro}" in
     debian)
         from_repo1='linux-estuary-latest'
         from_repo2='linux'
