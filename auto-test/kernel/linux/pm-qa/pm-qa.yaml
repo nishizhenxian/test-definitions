@@ -13,14 +13,16 @@ metadata:
         - fyuanz_2010@163.com
     os:
         - centos
+        - debian
     scope:
-        - linux
+        - mishuai
     devices:
         - d05
         - d03
-    level: 5
+    level: 1
     totalcase:
         centos: 7
+        debian: 7
 
 run:
     steps:
