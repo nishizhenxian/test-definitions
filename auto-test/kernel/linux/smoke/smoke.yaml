@@ -12,17 +12,16 @@ metadata:
         - fedora
         - debian
     scope:
-        - linux
-        - smoke
+        - mishuai
     devices:
         - d03
         - d05
     level: 1
     totalcase:
-        centos: 23
-        ubuntu: 23
-        fedora: 23
-        debian: 23
+        centos: 28
+        ubuntu: 28
+        fedora: 28
+        debian: 28
 
 run:
     steps:
