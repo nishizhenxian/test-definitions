@@ -75,10 +75,16 @@ case "${distro}" in
         done
         ;;
     centos)
-        sed -i s/5.[0-9]/5.1/g /etc/yum.repos.d/estuary.repo
-        version="4.16.0"
-        release="estuary.6"
-        from_repo="Estuary"
+        sed -i s/5.[0-9]/5.2/g /etc/yum.repos.d/estuary.repo
+        yum clean all
+	yum install -y kernel-tools-libs-devel >/dev/null
+        version=$(yum info kernel-tools-libs-devel | grep -i "version" | awk '{print $3}')
+        release=$(yum info kernel-tools-libs-devel | grep -i "release" | awk '{print $3}')
+        from_repo=$(yum info kernel-tools-libs-devel | grep -i "from repo" | awk '{print $4}')
+        yum remove -y kernel-tools-libs-devel > /dev/null
+	#version="4.16.0"
+        #release="estuary.6"
+        #from_repo="Estuary"
         package_list="kernel-devel kernel-headers kernel-tools-libs kernel-tools-libs-devel perf python-perf  kernel-debug kernel-debug-debuginfo"
         for p in ${package_list};do
             echo "$p install"
