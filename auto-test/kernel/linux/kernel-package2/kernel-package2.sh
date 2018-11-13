@@ -70,9 +70,9 @@ case "${distro}" in
     centos)
         sed -i s/5.[0-9]/5.2/g /etc/yum.repos.d/estuary.repo
         yum install -y kernel-debuginfo >/dev/null
-        version=$(yum info kernel-debuginfo | grep -i "version" | awk '{print $3}')
-        release=$(yum info kernel-debuginfo | grep -i "release" | awk '{print $3}')
-        from_repo=$(yum info kernel-debuginfo | grep -i "from repo" | awk '{print $4}')
+        version=$(yum info kernel-tools-debuginfo | grep -i "version" | awk '{print $3}')
+        release=$(yum info kernel-tools-debuginfo | grep -i "release" | awk '{print $3}')
+        from_repo=$(yum info kernel-tools-debuginfo | grep -i "from repo" | awk '{print $4}')
         yum remove -y kernel-debuginfo > /dev/null
         #version="4.18.14"
         #release="estuary.9"
