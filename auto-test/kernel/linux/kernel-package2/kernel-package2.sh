@@ -69,9 +69,14 @@ case "${distro}" in
         ;;
     centos)
         sed -i s/5.[0-9]/5.2/g /etc/yum.repos.d/estuary.repo
-        version="4.18.14"
-        release="estuary.9"
-        from_repo="Estuary"
+        yum install -y kernel-debuginfo >/dev/null
+        version=$(yum info kernel-debuginfo | grep -i "version" | awk '{print $3}')
+        release=$(yum info kernel-debuginfo | grep -i "release" | awk '{print $3}')
+        from_repo=$(yum info kernel-debuginfo | grep -i "from repo" | awk '{print $4}')
+        yum remove -y kernel-debuginfo > /dev/null
+        #version="4.18.14"
+        #release="estuary.9"
+        #from_repo="Estuary"
         package_list="kernel-debug-devel kernel-debuginfo kernel-debuginfo-common-aarch64 kernel-tools-debuginfo perf-debuginfo python-perf-debuginfo"
         for p in ${package_list};do
             echo "$p install"
