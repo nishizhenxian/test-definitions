@@ -31,6 +31,11 @@ install_deps "git build-essential linux-libc-dev" "${SKIP_INSTALL}"
 print_info $? install-pkg
 create_out_dir "${OUTPUT}"
 
+case "$distro" in 
+	debian)
+		apt-get install -y git
+		;;
+esac
 rm -rf pm-qa
 git clone https://git.linaro.org/power/pm-qa.git
 print_info $? git-pm-qa
