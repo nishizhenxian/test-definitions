@@ -9,8 +9,8 @@ if [ `whoami` != 'root' ] ; then
 fi
 
 cd ../../../../utils
-source        ./sys_info.sh
-source         ./sh-test-lib
+.        ./sys_info.sh
+.        ./sh-test-lib
 cd -
 
 ###################  Environmental preparation  #######################
