@@ -23,7 +23,8 @@ case "${distro}" in
 		s=$(apt show $p | grep "Source" | awk '{print $2}')	             
 		v=$(apt show $p | grep "Version" | awk '{print $2}')
         apt-get install -y $p
-        print_info $? ${p}_install		
+        print_info $? ${p}_install
+		
 		if [ "$s" = "${source1}" -o "$s" = "${source2}" ];then				                 
 		   print_info 0 ${p}_source
 		else
@@ -57,12 +58,7 @@ case "${distro}" in
 	for p in ${package_list};do
 		echo "$p install................."
 		apt-get install -y $p
-		vs=$(apt show $p | grep "Version" | awk '{print $2}')
-		status=$?
-		if [ "$vs" != "$iversion" -o "$vs" != "$version2" -o "$vs" != "$version3" ];then
-		   status=0
-		fi
-		if [ $status -eq 0 ];then
+		if [ $? -eq 0 ];then
 			install_source_version_remove $p
 		else
 			pa=$(apt search $p | grep $iversion | grep -v db | grep $p |cut -d "/" -f 1)

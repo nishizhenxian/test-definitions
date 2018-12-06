@@ -20,7 +20,7 @@ metadata:
     totalcase:
         centos: 40
         ubuntu: 43
-        debian: 55
+        debian: 75
         fedora: 32
         opensuse: 8        
 run:
