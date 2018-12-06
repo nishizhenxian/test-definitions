@@ -54,11 +54,20 @@ case "${distro}" in
 	source1=$(apt show libcpupower-dev| grep "Source"|awk '{print $2}')
 	source2=$(apt show linux-estuary-doc| grep "Source"|awk '{print $2}')
 	apt-get remove -y libcpupower-dev linux-estuary-doc usbip > /dev/null
-	package_list="libcpupower1 libcpupower-dev linux-cpupower linux-estuary-doc linux-estuary-perf linux-estuary-source linux-headers linux-headers-estuary-arm64 linux-image linux-image-estuary-arm64 linux-kbuild linux-libc-dev linux-perf linux-source linux-support usbip "
+	#package_list="libcpupower1 libcpupower-dev linux-cpupower linux-estuary-doc linux-estuary-perf linux-estuary-source linux-headers linux-headers-estuary-arm64 linux-image linux-image-estuary-arm64 linux-kbuild linux-libc-dev linux-perf linux-source linux-support usbip "
+#	package_list="linux-perf linux-source "
+package_list="libcpupower1 linux-estuary-doc linux-estuary-perf linux-estuary-source linux-headers-estuary-arm64 linux-image-estuary-arm64"
 	for p in ${package_list};do
 		echo "$p install................."
 		apt-get install -y $p
-		if [ $? -eq 0 ];then
+		status=0	
+		vs=$(apt show $p | grep "Version" | awk '{print $2}')
+		if [ "$vs" != "$iversion" -a "$vs" != "$version2" -a "$vs" != "$version3" ];then
+			status=1
+		fi
+
+
+		if [ $status -eq 0 ];then
 			install_source_version_remove $p
 		else
 			pa=$(apt search $p | grep $iversion | grep -v db | grep $p |cut -d "/" -f 1)
@@ -67,7 +76,7 @@ case "${distro}" in
 			    install_source_version_remove $pa
 			else
 				for i in $pa ;do
-			        install_source_version_remove $i
+				        install_source_version_remove $i
 				done
 			fi
 		fi
