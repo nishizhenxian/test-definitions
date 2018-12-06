@@ -28,7 +28,7 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) install_deps "build-essential" "${SKIP_INSTALL}"
+      debian|ubuntu) install_deps "build-essential gcc" "${SKIP_INSTALL}"
         if test $? -eq 0;then
         print_info 0 install 
         else

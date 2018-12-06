@@ -18,10 +18,12 @@ cd -
 ######################  testing the step #############################
 case "${distro}" in
     debian)
-	source_version_remove(){    
+	install_source_version_remove(){    
 		p=$1
 		s=$(apt show $p | grep "Source" | awk '{print $2}')	             
-		v=$(apt show $p | grep "Version" | awk '{print $2}')		              
+		v=$(apt show $p | grep "Version" | awk '{print $2}')
+        apt-get install -y $p
+        print_info $? ${p}_install		
 		if [ "$s" = "${source1}" -o "$s" = "${source2}" ];then				                 
 		   print_info 0 ${p}_source
 		else
@@ -42,8 +44,8 @@ case "${distro}" in
 		   print_info $? ${p}_remove
 		fi
 	}
-	sed -i s/5.[0-9]/5.2/g /etc/apt/sources.list.d/estuary.list
-	apt-get update
+#	sed -i s/5.[0-9]/5.2/g /etc/apt/sources.list.d/estuary.list
+#	apt-get update
 	apt-get install -y libcpupower-dev linux-estuary-doc usbip > /dev/null
 	iversion=$(apt show libcpupower-dev| grep "Version" | awk '{print $2}')
 	version2=$(apt show linux-estuary-doc| grep "Version" | awk '{print $2}')
@@ -58,23 +60,18 @@ case "${distro}" in
 		vs=$(apt show $p | grep "Version" | awk '{print $2}')
 		status=$?
 		if [ "$vs" != "$iversion" -o "$vs" != "$version2" -o "$vs" != "$version3" ];then
-		   status=1 
+		   status=0
 		fi
 		if [ $status -eq 0 ];then
-			print_info 0 ${p}_install
-			source_version_remove $p
+			install_source_version_remove $p
 		else
 			pa=$(apt search $p | grep $iversion | grep -v db | grep $p |cut -d "/" -f 1)
 			pa_num=$(apt search $p | grep $iversion | grep -v db | grep $p |cut -d "/" -f 1|wc -l)
 			if [ $pa_num = 1 ]; then
-				apt-get install -y $pa
-			print_info 0 ${pa}_install
-			source_version_remove $pa
+			    install_source_version_remove $pa
 			else
 				for i in $pa ;do
-					apt-get install -y $i
-				print_info 0 ${i}_install
-			source_version_remove $i
+			        install_source_version_remove $i
 				done
 			fi
 		fi
