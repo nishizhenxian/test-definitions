@@ -111,7 +111,7 @@ print_info $? devices
 run "cat /proc/filesystems"
 print_info $? filesystems
 
-run "echo $env"
+run "env"
 print_info $? env
 
 run "timedatectl"
